@@ -61,6 +61,7 @@ export default {
   },
   created(){
     this.RANDOM()
+    this.TIMER()
   },
   methods:{
     RANDOM: function(){
@@ -86,27 +87,35 @@ export default {
         this.numbers[key].is_select = false
         this.numbers[key].options = options.sort(function(){return Math.random() - 0.5})
       }
-      this.TIMER()
     },
     SELECT: function(number, index){
-      this.numbers[index].select = number
-      this.numbers[index].is_select = true
-      if(this.numbers.filter(e => e.is_select == true).length == this.numbers.length){
-        this.stop = true
+      let count = 0
+      count ++
+      if(count == 1){
+        this.numbers[index].select = number
+        this.numbers[index].is_select = true
+        if(this.numbers.filter(e => e.is_select == true).length == this.numbers.length){
+          this.stop = true
+        }
       }
     },
     SEND: function(){
-      if(this.numbers.filter(e => e.select == e.number).length == this.numbers.length){
-        this.$root.promedio++
-      }
-      if(this.finish == false){
-        this.$root.width+=20
-        this.timer = 10
-        this.stop = false
-        this.my_intentos++
-        this.RANDOM()
-        if(this.intentos == this.my_intentos){
-          this.finish = true
+      let count = 0
+      count ++
+      if(count == 1){
+        if(this.numbers.filter(e => e.select == e.number).length == this.numbers.length){
+          this.$root.promedio++
+        }
+        if(this.finish == false){
+          this.$root.width+=20
+          this.timer = 10
+          this.stop = false
+          this.my_intentos++
+          this.RANDOM()
+          this.TIMER()
+          if(this.intentos == this.my_intentos){
+            this.finish = true
+          }
         }
       }
     },
@@ -116,7 +125,7 @@ export default {
       });
     },
     TIMER: function() {
-        if (this.timer > 0 && this.stop == false) {
+        if (this.timer >= 1 && this.stop == false) {
             setTimeout(() => {
                 if(this.stop == false){
                   this.timer -= 1

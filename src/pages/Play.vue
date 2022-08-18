@@ -62,6 +62,7 @@ export default {
   },
   created(){
     this.RANDOM()
+    this.TIMER()
   },
   methods:{
     RANDOM: function(){
@@ -70,7 +71,6 @@ export default {
       this.random = _.random(number, number+4)
       let sum = _.random(1, 2)
       let resta = _.random(1, 2)
-      console.log(sum, resta)
       if(sum > resta){
         this.options = _.range(this.random, this.random+3)
       }else if(sum < resta){
@@ -78,27 +78,35 @@ export default {
       }else{
         this.options = _.range(this.random-1, this.random+2)
       }
-      this.TIMER()
     },
     SELECT: function(number){
-      this.number = number
-      this.select = true
-      this.stop = true
-      if(this.random == number){
-        this.$root.promedio++
+      let count = 0
+      count ++
+      if(count == 1){
+        this.number = number
+        this.select = true
+        this.stop = true
+        if(this.random == number){
+          this.$root.promedio++
+        }
       }
     },
     SEND: function(){
-      if(this.finish == false){
-        this.$root.width+=20
-        this.timer = 10
-        this.select = false
-        this.number = null
-        this.stop = false
-        this.my_intentos++
-        this.RANDOM()
-        if(this.intentos == this.my_intentos){
-          this.finish = true
+      let count = 0
+      count ++
+      if(count == 1){
+        if(this.finish == false){
+          this.$root.width+=20
+          this.timer = 10
+          this.select = false
+          this.number = null
+          this.stop = false
+          this.my_intentos++
+          this.RANDOM()
+          this.TIMER()
+          if(this.intentos == this.my_intentos){
+            this.finish = true
+          }
         }
       }
     },
@@ -106,7 +114,7 @@ export default {
         this.select = true
     },
     TIMER: function() {
-        if (this.timer > 0 && this.stop == false) {
+        if (this.timer >= 1 && this.stop == false) {
             setTimeout(() => {
                 if(this.stop == false){
                   this.timer -= 1
